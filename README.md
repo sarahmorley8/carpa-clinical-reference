@@ -44,6 +44,7 @@ calculator test harness and the 60-minute inactivity clear. See [the roadmap](do
 - [Content lifecycle and approval](docs/clinical-governance/lifecycle-and-approval.md)
 - [Licensing — read before entering CARPA content](docs/clinical-governance/licensing.md)
 - [Regulatory and governance checklist (AU / NZ)](docs/clinical-governance/regulatory-checklist.md)
+- [Visual design and artwork protocols](docs/design/visual-design.md)
 - [Privacy design](docs/privacy/privacy-design.md) · [Hazard log](docs/safety/hazard-log.md) ·
   [Known limitations](docs/safety/known-limitations.md) · [Risk register](docs/safety/risk-register.md)
 - [Architecture](docs/architecture/overview.md) · [Decision log](docs/architecture/decision-log.md) ·

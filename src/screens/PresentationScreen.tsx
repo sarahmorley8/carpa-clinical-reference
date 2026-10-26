@@ -47,7 +47,7 @@ function Section({
     <section id={id} className={`section section--${tone}`} aria-labelledby={`${id}-heading`}>
       <h2 id={`${id}-heading`} className="section__heading" tabIndex={-1}>
         {icon && <Icon name={icon} />}
-        <span>{title}</span>
+        <span className="section__title">{title}</span>
         {pages && <span className="section__pages">{pages}</span>}
       </h2>
       {children}

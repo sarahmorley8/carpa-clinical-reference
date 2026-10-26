@@ -229,6 +229,16 @@ export function SettingsScreen() {
         </ul>
       </section>
 
+      <section className="settings-group" aria-labelledby="artwork-heading">
+        <h2 id="artwork-heading" className="list-heading">
+          Artwork
+        </h2>
+        <p className="note">
+          The landscape band is a placeholder design, not Aboriginal artwork. It is intended to be replaced by licensed
+          work from an Aboriginal artist, credited here.
+        </p>
+      </section>
+
       <section className="settings-group" aria-labelledby="disclaimer-heading">
         <h2 id="disclaimer-heading" className="list-heading">
           Disclaimer

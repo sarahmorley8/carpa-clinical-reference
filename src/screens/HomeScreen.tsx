@@ -5,6 +5,7 @@ import { findRejected } from '../content/validate.ts';
 import { hrefFor, type Route } from '../navigation/router.ts';
 import { usePreferences } from '../state/PreferencesContext.tsx';
 import { Icon } from '../components/Icon.tsx';
+import { LandscapeBand } from '../components/LandscapeBand.tsx';
 import { PopulationSwitch } from '../components/PopulationSwitch.tsx';
 import { StatusPill } from '../components/StatusBadges.tsx';
 
@@ -51,6 +52,7 @@ export function HomeScreen() {
 
   return (
     <div className="screen">
+      <LandscapeBand />
       {store.rejected.length > 0 && (
         <a className="callout callout--caution callout--link" href={hrefFor({ name: 'problems' })}>
           <Icon name="caution" />
