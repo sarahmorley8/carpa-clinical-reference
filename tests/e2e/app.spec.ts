@@ -48,14 +48,26 @@ test('patient working state is never persisted and is gone after reload', async 
   const storage = await page.evaluate(async () => ({
     local: Object.fromEntries(Object.entries(localStorage)),
     session: Object.keys(sessionStorage),
-    caches: 'caches' in window ? await caches.keys() : [],
+    // The offline cache may exist; it must only hold the app's own release files.
+    cachedUrls: await (async () => {
+      const urls: string[] = [];
+      for (const name of await caches.keys()) {
+        for (const req of await (await caches.open(name)).keys()) urls.push(`${name}|${req.url}`);
+      }
+      return urls;
+    })(),
     idb: 'databases' in indexedDB ? (await indexedDB.databases()).map((d) => d.name) : [],
     url: location.href,
   }));
   expect(Object.keys(storage.local)).toEqual(['carpa.preferences.v1']);
   expect(JSON.stringify(storage.local)).not.toMatch(/hx-onset|child|sparkling/);
   expect(storage.session).toEqual([]);
-  expect(storage.caches).toEqual([]);
+  for (const entry of storage.cachedUrls) {
+    expect(entry).toMatch(
+      /^carpa-[0-9a-f]+\|http:\/\/127\.0\.0\.1:4173\/(index\.html|assets\/|icons\/|icon\.svg|manifest\.webmanifest|release\/)/,
+    );
+    expect(entry).not.toMatch(/child|hx-onset|sparkling/);
+  }
   expect(storage.idb).toEqual([]);
   expect(storage.url).not.toMatch(/child|hx-onset/);
 
@@ -135,6 +147,10 @@ for (const [name, path] of [
   ['template pathway', '/#/p/asthma'],
   ['escalation', '/#/p/demo-fictional-fever/escalate'],
   ['settings', '/#/settings'],
+  ['tools', '/#/tools'],
+  ['timers', '/#/timers'],
+  ['isbar', '/#/isbar'],
+  ['calculator', '/#/calculator'],
 ] as const) {
   for (const scheme of ['light', 'dark'] as const) {
     test(`accessibility: ${name} (${scheme})`, async ({ page }) => {
@@ -182,4 +198,45 @@ test('touch targets: main controls at least 44px, everything at least 24px (WCAG
     });
     expect(problems, path).toEqual([]);
   }
+});
+
+test('no screen scrolls sideways on a small phone', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await start(page);
+  for (const path of [
+    '/',
+    '/#/p/demo-fictional-fever',
+    '/#/p/asthma',
+    '/#/timers',
+    '/#/isbar',
+    '/#/calculator',
+    '/#/settings',
+  ]) {
+    await page.goto(path);
+    await page.waitForSelector('main');
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow, path).toBeLessThanOrEqual(0);
+  }
+});
+
+test('step-through pathway, timer and ISBAR work together', async ({ page }) => {
+  await start(page, '/#/p/demo-fictional-fever');
+  await page.getByRole('radio', { name: 'Child' }).click();
+  const m = page.getByRole('region', { name: /Management steps/ });
+  await m.getByRole('button', { name: 'No', exact: true }).click();
+  await m.getByLabel(/Enter value/).fill('3');
+  await m.getByRole('button', { name: 'Confirm' }).click();
+  await m.getByRole('button', { name: /Start timer/ }).click();
+  await expect(page.getByRole('link', { name: /1 timer/ })).toBeVisible();
+  await m.getByRole('button', { name: 'Yes', exact: true }).click();
+  await expect(m.getByText('End of pathway: continue as described in the source')).toBeVisible();
+  await page.goto('/#/isbar');
+  await page.getByRole('button', { name: 'Fill from ticked items and answers' }).click();
+  await expect(page.getByLabel(/Assessment/)).toHaveValue(/Measure the glow level \(fictional\): 3 glow units/);
+  await page.getByRole('button', { name: 'End session' }).click();
+  await page.getByRole('button', { name: 'Clear everything' }).click();
+  await expect(page.getByLabel(/Assessment/)).toHaveValue('');
+  await expect(page.getByRole('link', { name: /timer/ })).toHaveCount(0);
 });

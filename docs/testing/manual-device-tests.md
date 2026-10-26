@@ -16,5 +16,20 @@ Record: device, OS version, browser, date, tester, result (pass/fail + notes).
 10. **Reload / close app:** tick items, close the tab or app, reopen; confirm nothing is ticked.
 11. Repeat 1–10 on **Android Chrome** (TalkBack instead of VoiceOver).
 
-Phase 3 will add: Add to Home Screen, airplane-mode launch, offline readiness indicator, timers with screen locked,
-backgrounding, update while a session is active.
+## Phase 3 (built release on https hosting)
+
+12. **Install** (see `docs/deployment/install-on-phone.md`); Home shows **✓ Offline ready**.
+13. **Airplane mode:** close the app fully, reopen from the icon; open Chest pain and the demo pathway.
+14. **Step-through:** demo pathway → Child → No → 3 → Start timer → Yes. Change the first answer to Yes; confirm the
+    "later answers were cleared" notice.
+15. **Timer, screen on:** start a 1-minute timer; leave the app open; confirm alert dialog, sound (and vibration on
+    Android).
+16. **Timer, backgrounded:** start a 2-minute timer, switch to another app for 3 minutes, return: timer shows FINISHED
+    and the alert appears. Record whether any sound/notification happened while away (expected: none on iPhone).
+17. **Screen lock:** start a timer and check whether the screen stays on.
+18. **Inactivity:** tick an item, leave the phone untouched (screen kept on by a timer, or awake) — confirm the warning
+    at 59 minutes and the clear at 60 (or test on a build with a shortened limit).
+19. **ISBAR:** tick items, Fill, Copy → confirm warning → paste into Notes; delete the note afterwards.
+20. **Update:** publish a new build; reopen the app with a ticked item; confirm the update is held until End session.
+21. **tel: links:** once real numbers are entered, confirm tapping opens the dialler with the right number and does not
+    call automatically.

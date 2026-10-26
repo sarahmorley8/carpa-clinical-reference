@@ -1,12 +1,13 @@
 import { useRelease } from '../app/ContentContext.tsx';
-import { hrefFor } from '../navigation/router.ts';
+import { hrefFor, type Route } from '../navigation/router.ts';
 import { PREFERENCES_KEY, TEXT_SCALES, type Theme } from '../state/preferences.ts';
 import { usePreferences } from '../state/PreferencesContext.tsx';
 import { EndSessionButton } from '../components/AppShell.tsx';
 import { ContactCard } from '../components/Escalation.tsx';
-import { Icon } from '../components/Icon.tsx';
+import { Icon, type IconName } from '../components/Icon.tsx';
 import { PresentationLink } from './HomeScreen.tsx';
 import { DisclaimerText } from './Disclaimer.tsx';
+import { OfflineSettings } from '../offline/OfflineStatus.tsx';
 
 export function BrowseScreen() {
   const { release } = useRelease();
@@ -70,25 +71,40 @@ export function CriticalCategoryScreen({ id }: { id: string }) {
 }
 
 export function ToolsScreen() {
-  const tools = [
-    ['Weight-based dose calculator', 'Synthetic test harness only. Not enabled for patient care.'],
-    ['Timers', 'Repeat observations, reassessment, repeat doses, CPR cycles.'],
-    ['ISBAR handover', 'Build a handover from what you tick. Never saved.'],
+  const tools: { route: Route; name: string; desc: string; icon: IconName }[] = [
+    {
+      route: { name: 'timers' },
+      name: 'Timers',
+      desc: 'Repeat observations, reassessment, repeat doses, CPR cycles',
+      icon: 'tools',
+    },
+    {
+      route: { name: 'isbar' },
+      name: 'ISBAR handover',
+      desc: 'Build a handover from what you ticked. Never saved.',
+      icon: 'list',
+    },
+    { route: { name: 'contacts' }, name: 'Contacts', desc: 'Medical officer and retrieval numbers', icon: 'phone' },
+    {
+      route: { name: 'calculator' },
+      name: 'Dose calculator (synthetic test only)',
+      desc: 'Demonstration medicine only. Not for patient care.',
+      icon: 'caution',
+    },
   ];
   return (
     <div className="screen">
-      <a className="list-link" href={hrefFor({ name: 'contacts' })}>
-        <Icon name="phone" />
-        <span className="list-link__title">Contacts (medical officer, retrieval)</span>
-        <Icon name="chevron" />
-      </a>
-      <h2 className="list-heading">Coming in Phase 3</h2>
-      <ul className="tool-list">
-        {tools.map(([name, desc]) => (
-          <li key={name} className="tool-list__item">
-            <strong>{name}</strong>
-            <span>{desc}</span>
-            <span className="pill pill--neutral">NOT YET AVAILABLE</span>
+      <ul className="link-list">
+        {tools.map((t) => (
+          <li key={t.name}>
+            <a className="list-link" href={hrefFor(t.route)}>
+              <Icon name={t.icon} />
+              <span className="list-link__title">
+                {t.name}
+                <span className="list-link__desc">{t.desc}</span>
+              </span>
+              <Icon name="chevron" />
+            </a>
           </li>
         ))}
       </ul>
@@ -179,10 +195,7 @@ export function SettingsScreen() {
         <h2 id="offline-heading" className="list-heading">
           Offline readiness
         </h2>
-        <div className="callout callout--caution">
-          <strong>Not available offline yet.</strong> Offline support and its verification check arrive in Phase 3. This
-          preview needs an internet connection.
-        </div>
+        <OfflineSettings />
       </section>
 
       <section className="settings-group" aria-labelledby="version-heading">

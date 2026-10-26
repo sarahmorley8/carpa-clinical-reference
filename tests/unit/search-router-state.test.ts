@@ -95,7 +95,7 @@ describe('session state (memory only)', () => {
     s = sessionReducer(s, { type: 'toggle-check', presentationId: 'asthma', itemId: 'history-1' });
     expect(hasPatientData(s)).toBe(true);
     s = sessionReducer(s, { type: 'end-session' });
-    expect(s).toEqual({ ...INITIAL_SESSION, generation: 1 });
+    expect(s).toEqual({ ...INITIAL_SESSION, generation: 1, lastClear: 'user' });
     expect(hasPatientData(s)).toBe(false);
   });
 

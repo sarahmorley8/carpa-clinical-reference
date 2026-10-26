@@ -22,6 +22,8 @@ export interface Preferences {
   /** Presentation ids only, most recent first. */
   recents: string[];
   disclaimerAccepted: string | null;
+  /** Time of the last successful check for app/content updates (ms since epoch). */
+  lastUpdateCheck: number | null;
 }
 
 export const DEFAULT_PREFERENCES: Preferences = {
@@ -30,6 +32,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   favourites: [],
   recents: [],
   disclaimerAccepted: null,
+  lastUpdateCheck: null,
 };
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -45,6 +48,10 @@ export function sanitisePreferences(raw: unknown): Preferences {
     favourites: idList(r.favourites, 50),
     recents: idList(r.recents, MAX_RECENTS),
     disclaimerAccepted: typeof r.disclaimerAccepted === 'string' ? r.disclaimerAccepted : null,
+    lastUpdateCheck:
+      typeof r.lastUpdateCheck === 'number' && Number.isFinite(r.lastUpdateCheck) && r.lastUpdateCheck > 0
+        ? r.lastUpdateCheck
+        : null,
   };
 }
 

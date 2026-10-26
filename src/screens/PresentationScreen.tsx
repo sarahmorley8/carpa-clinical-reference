@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useRelease, useToday } from '../app/ContentContext.tsx';
 import { displayStatus } from '../content/status.ts';
 import { findRejected, type LoadedUnit } from '../content/validate.ts';
@@ -10,6 +10,7 @@ import { useSession } from '../state/session.tsx';
 import { CiteRef, ContentText, NumberValue, pagesOf } from '../components/ContentText.tsx';
 import { ActionList, EscalationContent, StatementList } from '../components/Escalation.tsx';
 import { Icon, type IconName } from '../components/Icon.tsx';
+import { PathwayRunner } from '../components/PathwayRunner.tsx';
 import { PopulationSwitch } from '../components/PopulationSwitch.tsx';
 import { PopulationTag, appliesTo } from '../components/Population.tsx';
 import { StatusBadges } from '../components/StatusBadges.tsx';
@@ -173,10 +174,7 @@ function ManagementSteps({ presentation }: { presentation: Presentation }) {
   const numberOf = new Map(steps.map((s) => [s.node.id, s.number]));
   return (
     <>
-      <p className="note">
-        Steps are listed in order. Step-by-step interactive navigation arrives in Phase 3. Branches are only those
-        written in the source; nothing is chosen for you.
-      </p>
+      <p className="note">Every step in the source, in order, with the branches the source defines.</p>
       <ol className="steps">
         {steps.map(({ number, node, next, reassess }) => {
           const applicable = appliesTo(node.populations, state.population);
@@ -240,6 +238,45 @@ function ManagementSteps({ presentation }: { presentation: Presentation }) {
           );
         })}
       </ol>
+    </>
+  );
+}
+
+function ManagementPanel({ presentation }: { presentation: Presentation }) {
+  const [mode, setMode] = useState<'run' | 'all'>('run');
+  return (
+    <>
+      <div className="segmented segmented--small" role="radiogroup" aria-label="Management view">
+        <button
+          type="button"
+          role="radio"
+          aria-checked={mode === 'run'}
+          className="segmented__option"
+          onClick={() => setMode('run')}
+        >
+          Step through
+        </button>
+        <button
+          type="button"
+          role="radio"
+          aria-checked={mode === 'all'}
+          className="segmented__option"
+          onClick={() => setMode('all')}
+        >
+          All steps
+        </button>
+      </div>
+      {mode === 'run' ? (
+        <>
+          <p className="note">
+            Answer each question. Only branches written in the source are followed; nothing is chosen for you. If the
+            source does not cover an answer, the pathway stops and says so.
+          </p>
+          <PathwayRunner presentation={presentation} />
+        </>
+      ) : (
+        <ManagementSteps presentation={presentation} />
+      )}
     </>
   );
 }
@@ -434,7 +471,7 @@ export function PresentationScreen({ id }: { id: string }) {
       </Section>
 
       <Section id="management" title="Management steps" cites={p.pathway.nodes.map((n) => n.cite)}>
-        <ManagementSteps presentation={p} />
+        <ManagementPanel presentation={p} />
       </Section>
 
       <Section

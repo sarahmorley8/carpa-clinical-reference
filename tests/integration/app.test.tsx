@@ -147,6 +147,7 @@ describe('settings', () => {
     go('#/settings');
     render(<App release={release} preferences={accepted} />);
     expect(screen.getByText(release.manifest.releaseId)).toBeInTheDocument();
-    expect(screen.getByText(/Not available offline yet/)).toBeInTheDocument();
+    // Offline is inactive outside built releases, and the app says so rather than claiming readiness.
+    expect(screen.getByText('Offline inactive (development build)')).toBeInTheDocument();
   });
 });

@@ -1,8 +1,10 @@
 /// <reference types="vitest/config" />
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { carpaContentPlugin } from './vite-plugins/content-plugin.ts';
+import { serviceWorkerPlugin } from './vite-plugins/sw-plugin.ts';
 import { parseProfile } from './scripts/lib/collect.ts';
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as { version: string };
@@ -35,7 +37,12 @@ function cspPlugin(): Plugin {
 
 export default defineConfig({
   base: './',
-  plugins: [react(), carpaContentPlugin({ profile, appVersion: pkg.version }), cspPlugin()],
+  plugins: [
+    react(),
+    carpaContentPlugin({ profile, appVersion: pkg.version }),
+    cspPlugin(),
+    serviceWorkerPlugin(fileURLToPath(new URL('./sw/sw.template.js', import.meta.url))),
+  ],
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
     __CONTENT_PROFILE__: JSON.stringify(profile),

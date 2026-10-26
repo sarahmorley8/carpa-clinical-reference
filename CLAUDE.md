@@ -27,3 +27,5 @@ This is a clinical reference app prototype. Safety rules come first.
   browser) · `src/decision-engine/` pathway graph logic (no React) · `scripts/` content tooling ·
   `vite-plugins/content-plugin.ts` serves/emits the content release.
 - Lockfile was generated with npm 11 (npm 10.9 has a peer-resolution bug with this tree); `npm ci` works on npm 10.
+- Offline: `sw/sw.template.js` (hash-verified install, never self-activates) is filled in by
+  `vite-plugins/sw-plugin.ts`; e2e tests run against `tests/e2e/static-server.mjs` (test hook publishes a modified sw.js).

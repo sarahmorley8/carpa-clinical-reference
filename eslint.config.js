@@ -44,6 +44,15 @@ export default tseslint.config(
     rules: { 'no-restricted-globals': 'off' },
   },
   {
+    files: ['**/*.cjs'],
+    languageOptions: { sourceType: 'commonjs', globals: { ...globals.node } },
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
+  {
+    files: ['sw/**/*.js'],
+    languageOptions: { globals: { ...globals.serviceworker, __CARPA_BUILD__: 'readonly' } },
+  },
+  {
     files: ['scripts/**', 'vite-plugins/**', 'vite.config.ts', 'playwright.config.ts', 'tests/**'],
     languageOptions: { globals: { ...globals.node } },
     rules: { 'no-restricted-globals': 'off' },

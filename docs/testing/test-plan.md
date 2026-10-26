@@ -11,5 +11,7 @@
 Clinical expectations (e.g. dose results for real medicines) must come from authorised sources and independent review,
 never from AI-generated answers. Current calculator-related data is synthetic.
 
-Phase 3 adds: engine `evaluate()` state transitions (property-based), calculator (boundaries, units, rounding, max
-dose, cumulative), offline launch, failed update keeps previous release, interrupted install, inactivity clear.
+Phase 3 added: pathway engine (`tests/unit/evaluate.test.ts`, property-based), calculator (`dose.test.ts`:
+boundaries, units, rounding, max/min/cumulative, volume, missing values, property-based), timers/inactivity/ISBAR
+(`tools.test.ts`), UI flows (`tests/integration/phase3.test.tsx`), offline and updates (`tests/e2e/offline.spec.ts`,
+served by `tests/e2e/static-server.mjs`).

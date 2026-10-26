@@ -4,7 +4,7 @@ import { useRoute, type Route } from '../navigation/router.ts';
 import { DISCLAIMER_VERSION } from '../state/preferences.ts';
 import { PreferencesProvider, usePreferences } from '../state/PreferencesContext.tsx';
 import type { Preferences } from '../state/preferences.ts';
-import { SessionProvider } from '../state/session.tsx';
+import { SessionProvider, useSession } from '../state/session.tsx';
 import { BottomNav, Header, ProfileBanner } from '../components/AppShell.tsx';
 import { Icon } from '../components/Icon.tsx';
 import { DisclaimerGate } from '../screens/Disclaimer.tsx';
@@ -19,7 +19,11 @@ import {
   ToolsScreen,
 } from '../screens/OtherScreens.tsx';
 import { EscalationScreen, PresentationScreen } from '../screens/PresentationScreen.tsx';
+import { CalculatorScreen, IsbarScreen, TimersScreen } from '../screens/ToolScreens.tsx';
+import { ActiveTimersStrip, SessionGuards } from '../components/SessionGuards.tsx';
 import { ContentProvider, useContentState, useRelease } from './ContentContext.tsx';
+import { OfflineProvider } from '../offline/OfflineContext.tsx';
+import { UpdateBanner } from '../offline/OfflineStatus.tsx';
 
 function titleFor(route: Route, release: LoadedRelease): string {
   const store = release.store;
@@ -38,6 +42,12 @@ function titleFor(route: Route, release: LoadedRelease): string {
       return store.refs['critical-categories'].get(route.id)?.label ?? 'Critical';
     case 'tools':
       return 'Tools';
+    case 'timers':
+      return 'Timers';
+    case 'isbar':
+      return 'ISBAR handover';
+    case 'calculator':
+      return 'Dose calculator';
     case 'contacts':
       return 'Contacts';
     case 'settings':
@@ -65,6 +75,12 @@ function Screen({ route }: { route: Route }) {
       return <CriticalCategoryScreen id={route.id} />;
     case 'tools':
       return <ToolsScreen />;
+    case 'timers':
+      return <TimersScreen />;
+    case 'isbar':
+      return <IsbarScreen />;
+    case 'calculator':
+      return <CalculatorScreen />;
     case 'contacts':
       return <ContactsScreen />;
     case 'settings':
@@ -82,6 +98,7 @@ function Screen({ route }: { route: Route }) {
 
 function ReadyApp() {
   const { release } = useRelease();
+  const { state } = useSession();
   const route = useRoute();
   const mainRef = useRef<HTMLElement>(null);
   const routeKey = JSON.stringify(route);
@@ -93,12 +110,20 @@ function ReadyApp() {
   }, [routeKey]);
 
   return (
-    <div className={`app${route.name === 'presentation' ? ' app--with-escalate' : ''}`}>
+    <div
+      className={`app${route.name === 'presentation' ? ' app--with-escalate' : ''}${
+        state.timers.some((t) => t.status !== 'done' || !t.acknowledged) ? ' app--timers' : ''
+      }`}
+    >
       <ProfileBanner />
       <Header title={titleFor(route, release)} showBack={route.name !== 'home'} />
       <main ref={mainRef} tabIndex={-1} className="app-main">
-        <Screen route={route} />
+        <UpdateBanner />
+        <ActiveTimersStrip />
+        {/* Remount screens when the session is cleared so no local working state survives. */}
+        <Screen key={state.generation} route={route} />
       </main>
+      <SessionGuards />
       <BottomNav current={route.name} />
     </div>
   );
@@ -135,9 +160,11 @@ export function App({ release, preferences }: { release?: LoadedRelease; prefere
   return (
     <PreferencesProvider initial={preferences}>
       <SessionProvider>
-        <ContentProvider release={release}>
-          <Gate />
-        </ContentProvider>
+        <OfflineProvider enabled={import.meta.env.PROD}>
+          <ContentProvider release={release}>
+            <Gate />
+          </ContentProvider>
+        </OfflineProvider>
       </SessionProvider>
     </PreferencesProvider>
   );

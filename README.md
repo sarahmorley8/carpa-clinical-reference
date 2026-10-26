@@ -2,7 +2,7 @@
 
 A mobile-first clinical reference app prototype for remote area nurses who use the CARPA Standard Treatment Manual.
 
-> **Status: non-clinical prototype (Phase 2 of 6). NOT FOR CLINICAL USE.**
+> **Status: non-clinical prototype (Phase 3 of 6). NOT FOR CLINICAL USE.**
 > It contains **no approved clinical content** — only empty templates and one clearly labelled, made-up
 > demonstration pathway. Passing software tests does not make it clinically safe or approved.
 
@@ -20,8 +20,17 @@ A mobile-first clinical reference app prototype for remote area nurses who use t
 - **Privacy:** ticked items and the patient group live in memory only. Nothing about a patient is saved or sent.
 - Settings: dark mode, text size, versions, privacy information, disclaimer, End session.
 
-Coming in Phase 3: offline install, interactive step-by-step pathways, timers, ISBAR handover, the synthetic dose
-calculator test harness and the 60-minute inactivity clear. See [the roadmap](docs/architecture/roadmap.md).
+- **Step-through pathways:** answer each question; only branches written in the source are followed. If the source
+  doesn't cover an answer (or something is missing or conflicting), the pathway STOPS and says why. Changing an earlier
+  answer recalculates everything after it.
+- **Works offline** once installed: every file is checked against its fingerprint before use; "Offline ready" is shown
+  only after checking. Updates wait for your tap and never apply during a patient session.
+- **Timers** (durations from the pathway or typed by you), **ISBAR handover** builder (copy with a clipboard warning),
+  and **automatic clearing after 60 minutes** of inactivity with a 60-second warning.
+- **Dose calculator test harness** — fictional demonstration medicine only, not for patient care.
+
+Next (Phase 4): verification on real phones, hosting decision, and full deployment documentation. See
+[the roadmap](docs/architecture/roadmap.md).
 
 ## Where things are
 
@@ -40,7 +49,8 @@ calculator test harness and the 60-minute inactivity clear. See [the roadmap](do
 
 - [Adding or editing a presentation (non-programmer guide)](docs/content-authoring/guide.md)
 - [Every content field explained](docs/content-authoring/field-reference.md)
-- [Running the app on your computer and phone](docs/deployment/local-development.md)
+- [Installing on your iPhone or Android phone](docs/deployment/install-on-phone.md)
+- [Running the app on your computer](docs/deployment/local-development.md)
 - [Content lifecycle and approval](docs/clinical-governance/lifecycle-and-approval.md)
 - [Licensing — read before entering CARPA content](docs/clinical-governance/licensing.md)
 - [Regulatory and governance checklist (AU / NZ)](docs/clinical-governance/regulatory-checklist.md)
@@ -48,7 +58,7 @@ calculator test harness and the 60-minute inactivity clear. See [the roadmap](do
 - [Privacy design](docs/privacy/privacy-design.md) · [Hazard log](docs/safety/hazard-log.md) ·
   [Known limitations](docs/safety/known-limitations.md) · [Risk register](docs/safety/risk-register.md)
 - [Architecture](docs/architecture/overview.md) · [Decision log](docs/architecture/decision-log.md) ·
-  [Test plan](docs/testing/test-plan.md) · [Phase 2 test report](docs/testing/phase-2-report.md)
+  [Test plan](docs/testing/test-plan.md) · [Phase 2 test report](docs/testing/phase-2-report.md) · [Phase 3 test report](docs/testing/phase-3-report.md)
 
 ## Quick start (for developers)
 
@@ -62,8 +72,6 @@ npm run check             # content + lint + format + types + unit/integration t
 npm run test:e2e          # browser tests (builds the app first)
 npm run build             # production build in dist/
 ```
-
-Installing on a phone and working offline arrive in Phase 3.
 
 ## Disclaimer
 

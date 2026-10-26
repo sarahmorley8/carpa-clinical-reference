@@ -12,6 +12,9 @@ export type Route =
   | { name: 'system'; id: string }
   | { name: 'critical'; id: string }
   | { name: 'tools' }
+  | { name: 'timers' }
+  | { name: 'isbar' }
+  | { name: 'calculator' }
   | { name: 'contacts' }
   | { name: 'settings' }
   | { name: 'problems' }
@@ -30,6 +33,12 @@ export function parseHash(hash: string): Route {
         return { name: 'browse' };
       case 'tools':
         return { name: 'tools' };
+      case 'timers':
+        return { name: 'timers' };
+      case 'isbar':
+        return { name: 'isbar' };
+      case 'calculator':
+        return { name: 'calculator' };
       case 'contacts':
         return { name: 'contacts' };
       case 'settings':

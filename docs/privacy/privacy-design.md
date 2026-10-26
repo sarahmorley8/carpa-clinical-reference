@@ -20,9 +20,9 @@ requests are for the app's own files.
 
 ## Limits the app cannot control
 
-- **Clipboard** (ISBAR copy, Phase 3): the OS and other apps may keep clipboard history (e.g. iOS Universal Clipboard,
-  Android clipboard managers). The app will warn before copying.
+- **Clipboard** (ISBAR copy): the OS and other apps may keep clipboard history (e.g. iOS Universal Clipboard, Android
+  clipboard managers). The app asks for confirmation with this warning before every copy.
 - **App switcher snapshots**, screen recording and screenshots.
 - **Keyboard learning** of typed words.
 - **Backgrounding:** while the app is in the background its memory may persist until the OS closes it.
-- **Shared devices:** use End session (and, from Phase 3, the 60-minute inactivity clear). Use a device passcode.
+- **Shared devices:** use End session; the 60-minute inactivity clear is a backstop. Use a device passcode.

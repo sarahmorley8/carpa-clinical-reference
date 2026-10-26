@@ -16,6 +16,7 @@ interface PreferencesApi {
   toggleFavourite: (id: string) => void;
   addRecent: (id: string) => void;
   acceptDisclaimer: (version: string) => void;
+  recordUpdateCheck: (time: number) => void;
 }
 
 const Ctx = createContext<PreferencesApi | null>(null);
@@ -46,6 +47,7 @@ export function PreferencesProvider({ children, initial }: { children: ReactNode
       toggleFavourite: (id) => update((p) => withFavouriteToggled(p, id)),
       addRecent: (id) => update((p) => withRecent(p, id)),
       acceptDisclaimer: (version) => update((p) => ({ ...p, disclaimerAccepted: version })),
+      recordUpdateCheck: (time) => update((p) => ({ ...p, lastUpdateCheck: time })),
     }),
     [prefs, update],
   );

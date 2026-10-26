@@ -14,7 +14,8 @@ export default defineConfig({
     { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
-    command: 'npm run build && npx vite preview --host 127.0.0.1 --port 4173 --strictPort',
+    command: 'npm run build && node tests/e2e/static-server.mjs dist 4173',
+    env: { E2E_TEST_HOOKS: '1' },
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
