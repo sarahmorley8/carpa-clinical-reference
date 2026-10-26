@@ -1447,3 +1447,10 @@ a {
 .stale {
   color: var(--caution-text);
 }
+.btn {
+  overflow-wrap: normal;
+}
+.run-step__answer .btn {
+  flex: none;
+  white-space: nowrap;
+}
