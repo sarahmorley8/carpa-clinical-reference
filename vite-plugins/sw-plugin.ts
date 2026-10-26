@@ -7,7 +7,8 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import type { Plugin, ResolvedConfig } from 'vite';
 
-const EXCLUDE = new Set(['sw.js', '_headers', '_redirects']);
+// signin.html is deliberately never cached: it must reach the network so an access login can appear.
+const EXCLUDE = new Set(['sw.js', '_headers', '_redirects', 'signin.html', 'signin.css']);
 
 function walk(dir: string, root = dir): string[] {
   return readdirSync(dir).flatMap((name) => {

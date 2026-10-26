@@ -1,6 +1,7 @@
 # Installing the app on your phone
 
-The app must first be hosted on a secure (https) website — see the hosting decision in Phase 4. Then:
+The app must first be hosted on a secure (https) website — see [hosting.md](hosting.md). If the site is restricted
+with Cloudflare Access, the first visit asks for your email and a one-time PIN. Then:
 
 ## iPhone (Safari)
 

@@ -6,9 +6,9 @@ import { Icon, type IconName } from './Icon.tsx';
 
 export function ProfileBanner() {
   return (
-    <div className="profile-banner" role="note">
+    <aside className="profile-banner" aria-label="Build status">
       <strong>PREVIEW BUILD — PERSONAL PROTOTYPE — NOT FOR CLINICAL USE</strong>
-    </div>
+    </aside>
   );
 }
 

@@ -82,6 +82,11 @@ self.addEventListener('fetch', (event) => {
     (async () => {
       const cache = await caches.open(CACHE);
       if (request.mode === 'navigate') {
+        const scope = new URL(self.registration.scope);
+        const isShell = url.pathname === scope.pathname || url.pathname === `${scope.pathname}index.html`;
+        // Other pages (e.g. signin.html) go to the network so a hosting login can be shown.
+        if (!isShell)
+          return fetch(request).catch(async () => (await cache.match(absolute('index.html'))) ?? Response.error());
         const shell = await cache.match(absolute('index.html'));
         if (shell) return shell;
       }

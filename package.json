@@ -19,7 +19,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "check": "npm run validate-content && npm run lint && npm run format:check && npm run typecheck && npm run test"
+    "check": "npm run validate-content && npm run lint && npm run format:check && npm run typecheck && npm run test",
+    "check:reproducible": "bash scripts/check-reproducible.sh"
   },
   "dependencies": {
     "decimal.js": "10.6.0",

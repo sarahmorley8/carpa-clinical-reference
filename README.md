@@ -2,7 +2,7 @@
 
 A mobile-first clinical reference app prototype for remote area nurses who use the CARPA Standard Treatment Manual.
 
-> **Status: non-clinical prototype (Phase 3 of 6). NOT FOR CLINICAL USE.**
+> **Status: non-clinical prototype (Phase 4 of 6 — verification). NOT FOR CLINICAL USE.**
 > It contains **no approved clinical content** — only empty templates and one clearly labelled, made-up
 > demonstration pathway. Passing software tests does not make it clinically safe or approved.
 
@@ -29,8 +29,10 @@ A mobile-first clinical reference app prototype for remote area nurses who use t
   and **automatic clearing after 60 minutes** of inactivity with a 60-second warning.
 - **Dose calculator test harness** — fictional demonstration medicine only, not for patient care.
 
-Next (Phase 4): verification on real phones, hosting decision, and full deployment documentation. See
-[the roadmap](docs/architecture/roadmap.md).
+Phase 4 added verification (performance, accessibility, security, offline reliability), a deploy workflow for
+Cloudflare Pages (switched off until connected), and deployment/rollback guides. Still needed: testing on your
+real iPhone and Android phone. See [the roadmap](docs/architecture/roadmap.md) and the
+[release readiness checklist](docs/clinical-governance/release-readiness-checklist.md).
 
 ## Where things are
 
@@ -49,6 +51,8 @@ Next (Phase 4): verification on real phones, hosting decision, and full deployme
 
 - [Adding or editing a presentation (non-programmer guide)](docs/content-authoring/guide.md)
 - [Every content field explained](docs/content-authoring/field-reference.md)
+- [Hosting (Cloudflare Pages + access restriction)](docs/deployment/hosting.md)
+- [Deploying, updating content and rolling back](docs/deployment/deploy-and-rollback.md)
 - [Installing on your iPhone or Android phone](docs/deployment/install-on-phone.md)
 - [Running the app on your computer](docs/deployment/local-development.md)
 - [Content lifecycle and approval](docs/clinical-governance/lifecycle-and-approval.md)
@@ -58,7 +62,9 @@ Next (Phase 4): verification on real phones, hosting decision, and full deployme
 - [Privacy design](docs/privacy/privacy-design.md) · [Hazard log](docs/safety/hazard-log.md) ·
   [Known limitations](docs/safety/known-limitations.md) · [Risk register](docs/safety/risk-register.md)
 - [Architecture](docs/architecture/overview.md) · [Decision log](docs/architecture/decision-log.md) ·
-  [Test plan](docs/testing/test-plan.md) · [Phase 2 test report](docs/testing/phase-2-report.md) · [Phase 3 test report](docs/testing/phase-3-report.md)
+  [Test plan](docs/testing/test-plan.md) · [Phase 2 test report](docs/testing/phase-2-report.md) · [Phase 3 test report](docs/testing/phase-3-report.md) ·
+  [Phase 4 verification report](docs/testing/phase-4-report.md) · [Security review](docs/security/security-review.md) ·
+  [Defect register](docs/safety/defect-register.md) · [Release readiness](docs/clinical-governance/release-readiness-checklist.md)
 
 ## Quick start (for developers)
 

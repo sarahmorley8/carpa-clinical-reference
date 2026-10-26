@@ -25,5 +25,8 @@ npm run build      # outputs dist/ (app + release/manifest.json + release/conten
 npm run preview    # serve dist/ locally
 ```
 
-`public/_headers` sets security headers on Cloudflare Pages/Netlify. Hosting, phone installation, offline
-verification, content updates and rollback are documented in Phase 4, once offline support exists.
+`public/_headers` sets security headers on Cloudflare Pages/Netlify. See [hosting.md](hosting.md),
+[deploy-and-rollback.md](deploy-and-rollback.md) and [install-on-phone.md](install-on-phone.md).
+
+Builds are reproducible: with the same `SOURCE_DATE_EPOCH` the output is byte-for-byte identical
+(`npm run check:reproducible`).

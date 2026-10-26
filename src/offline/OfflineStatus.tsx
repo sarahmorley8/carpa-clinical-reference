@@ -79,7 +79,7 @@ export function OfflinePill() {
 }
 
 export function OfflineSettings() {
-  const { readiness, verify, checkForUpdate, update } = useOffline();
+  const { readiness, verify, checkForUpdate, update, checkFailed } = useOffline();
   const { prefs } = usePreferences();
   const days = daysSince(prefs.lastUpdateCheck);
   const tone = readiness.status === 'ready' ? 'ok' : 'caution';
@@ -120,6 +120,21 @@ export function OfflineSettings() {
           }
         </dd>
       </dl>
+      {(checkFailed || (days !== null && days > STALE_CHECK_DAYS)) && (
+        <div className="callout callout--caution">
+          <Icon name="caution" />
+          <div>
+            <strong>Could not check for updates.</strong>
+            <p>
+              You may be offline. If you are online and the app is hosted behind a sign-in, your sign-in may have
+              expired.
+            </p>
+            <a className="btn btn--secondary btn--small" href="./signin.html">
+              Sign in to receive updates
+            </a>
+          </div>
+        </div>
+      )}
       <p className="note">
         Being online does not mean the clinical content is current. Check the release and review dates against the
         current manual.

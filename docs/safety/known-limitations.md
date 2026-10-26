@@ -1,4 +1,4 @@
-# Known limitations (Phase 3)
+# Known limitations (Phase 4)
 
 - **No approved clinical content.** Templates and a fictional demonstration only.
 - **Not yet tested on a real iPhone or Android phone.** Offline install, timers with the screen locked, sound,
@@ -8,8 +8,14 @@
   mute sound in silent mode. If the phone kills the app in the background, timers are lost (memory only, by design).
 - **Inactivity clear** removes running timers too (decision D21).
 - **On-device rollback** is not available: a failed update never activates, and rolling back is done by publishing an
-  earlier release (Phase 4 documents the procedure).
-- **Releases change every build** unless `SOURCE_DATE_EPOCH` is set, so phones will offer an update after every deploy.
+  earlier release (`docs/deployment/deploy-and-rollback.md`).
+- **Not hosted yet.** The deploy workflow is ready but switched off until a Cloudflare account is connected.
+- **Hosting login:** with Cloudflare Access, an installed app cannot renew an expired login by itself; update checks
+  fail until you use **Sign in to receive updates** in Settings (the app warns).
+- **No signed releases:** a compromised hosting account could publish a self-consistent release (Phase 5).
+- **Performance figures are simulated** (4× slowed desktop CPU), not measured on a phone.
+- **Releases change with every commit** (build time comes from the commit), so phones are offered an update after each
+  deploy of a new commit; rebuilding the same commit produces identical files.
 - **Calculator** works only for the fictional demonstration medicine. It is not a clinical tool.
 - **Approval cannot be verified** yet (Phase 5).
 - **ISBAR** only uses what was ticked/answered/typed; it does not know what was said on the phone.

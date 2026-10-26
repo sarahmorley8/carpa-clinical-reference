@@ -513,7 +513,7 @@ a {
   padding: 10px 14px;
   border-radius: 18px;
   background:
-    radial-gradient(circle at 105% 120%, rgb(255 255 255 / 16%) 0 38%, transparent 39%),
+    radial-gradient(circle at 105% 120%, rgb(255 255 255 / 10%) 0 38%, transparent 39%),
     linear-gradient(160deg, var(--critical), #8f2a1a);
   color: var(--on-critical) !important;
   font-weight: 800;

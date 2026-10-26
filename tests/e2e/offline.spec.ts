@@ -99,3 +99,22 @@ test('an update waits for the user and never applies during a patient session', 
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'Offline ready' })).toBeVisible({ timeout: 15_000 });
 });
+
+test('the sign-in page always goes to the network (so a hosting login can appear) and is never cached', async ({
+  page,
+  context,
+}) => {
+  await installAndWaitReady(page);
+  await page.goto('/signin.html');
+  await expect(page.getByRole('heading', { name: 'You are signed in' })).toBeVisible();
+  const cached = await page.evaluate(async () => {
+    const urls: string[] = [];
+    for (const n of await caches.keys()) for (const r of await (await caches.open(n)).keys()) urls.push(r.url);
+    return urls;
+  });
+  expect(cached.some((u) => u.includes('signin'))).toBe(false);
+  // Offline, the sign-in page falls back to the app rather than an error page.
+  await context.setOffline(true);
+  await page.goto('/signin.html');
+  await expect(page.getByRole('heading', { name: /CRITICAL/ })).toBeVisible();
+});

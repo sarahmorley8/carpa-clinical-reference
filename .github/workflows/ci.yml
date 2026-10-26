@@ -25,6 +25,8 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm audit --audit-level=moderate
+      - name: Reproducible build check
+        run: npm run check:reproducible
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
       - run: npm run test:e2e

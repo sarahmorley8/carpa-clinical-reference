@@ -22,6 +22,8 @@ export type UpdateState = 'none' | 'downloading' | 'ready' | 'failed';
 export interface OfflineApi {
   readiness: Readiness;
   update: UpdateState;
+  /** The last update check could not reach the server (offline, or access login expired). */
+  checkFailed: boolean;
   verify: () => void;
   checkForUpdate: () => void;
   applyUpdate: () => void;
@@ -83,6 +85,7 @@ async function sha256Hex(buffer: ArrayBuffer): Promise<string> {
 const Ctx = createContext<OfflineApi>({
   readiness: { status: 'development', detail: '' },
   update: 'none',
+  checkFailed: false,
   verify: () => undefined,
   checkForUpdate: () => undefined,
   applyUpdate: () => undefined,
@@ -109,6 +112,7 @@ export function OfflineProvider({ children, enabled }: { children: ReactNode; en
         : { status: 'installing', detail: 'Downloading and checking the app for offline use…' },
   );
   const [update, setUpdate] = useState<UpdateState>('none');
+  const [checkFailed, setCheckFailed] = useState(false);
   const registration = useRef<ServiceWorkerRegistration | null>(null);
   const lastCheck = useRef(0);
 
@@ -163,8 +167,12 @@ export function OfflineProvider({ children, enabled }: { children: ReactNode; en
     lastCheck.current = Date.now();
     reg
       .update()
-      .then(() => recordUpdateCheck(Date.now()))
-      .catch(() => undefined); // offline: try again later
+      .then(() => {
+        recordUpdateCheck(Date.now());
+        setCheckFailed(false);
+      })
+      // Offline, or the host's access login has expired. Try again later; Settings explains.
+      .catch(() => setCheckFailed(true));
   }, [recordUpdateCheck]);
 
   useEffect(() => {
@@ -212,8 +220,8 @@ export function OfflineProvider({ children, enabled }: { children: ReactNode; en
   }, []);
 
   const api = useMemo(
-    () => ({ readiness, update, verify, checkForUpdate, applyUpdate }),
-    [readiness, update, verify, checkForUpdate, applyUpdate],
+    () => ({ readiness, update, checkFailed, verify, checkForUpdate, applyUpdate }),
+    [readiness, update, checkFailed, verify, checkForUpdate, applyUpdate],
   );
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;
 }
