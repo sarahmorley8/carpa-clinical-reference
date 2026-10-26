@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "observation-set",
+  "meta": {
+    "id": "demo-observations",
+    "title": "DEMONSTRATION ONLY — Fictional observation ranges",
+    "contentVersion": "0.1.0",
+    "status": "draft",
+    "demonstration": true,
+    "populations": ["adult", "child"],
+    "sources": [
+      {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 1",
+        "page": "D-1"
+      }
+    ],
+    "extracted": {
+      "date": "2026-10-26",
+      "by": "Synthetic example — not from any manual"
+    },
+    "review": {
+      "reviewedDate": null,
+      "reviewer": null,
+      "approvalDate": null,
+      "nextReviewDate": null
+    },
+    "supersededBy": null,
+    "dependsOn": [],
+    "authoringNotes": [
+      "Entirely fictional. Exists only to show how the app displays content. Never copy values from this file."
+    ]
+  },
+  "parameters": [
+    {
+      "key": "glow-level",
+      "label": "Glow level (fictional)",
+      "unit": "glow units"
+    },
+    {
+      "key": "sparkle-rate",
+      "label": "Sparkle rate (fictional)",
+      "unit": "sparkles/min"
+    }
+  ],
+  "bands": [
+    {
+      "id": "demo-adult",
+      "populationId": "adult",
+      "label": "Adult (fictional)",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 2",
+        "page": "D-2"
+      },
+      "values": [
+        {
+          "parameterKey": "glow-level",
+          "low": 1,
+          "high": 4
+        },
+        {
+          "parameterKey": "sparkle-rate",
+          "low": 0,
+          "high": 2
+        }
+      ]
+    },
+    {
+      "id": "demo-child",
+      "populationId": "child",
+      "label": "Child (fictional)",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 2",
+        "page": "D-2"
+      },
+      "values": [
+        {
+          "parameterKey": "glow-level",
+          "low": 2,
+          "high": 5
+        },
+        {
+          "parameterKey": "sparkle-rate",
+          "low": null,
+          "high": null,
+          "note": "Deliberately left blank to show how missing values appear."
+        }
+      ]
+    }
+  ]
+}

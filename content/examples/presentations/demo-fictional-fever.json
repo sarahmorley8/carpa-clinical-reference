@@ -1,0 +1,456 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "presentation",
+  "meta": {
+    "id": "demo-fictional-fever",
+    "title": "DEMONSTRATION ONLY — Fictional fever",
+    "contentVersion": "0.1.0",
+    "status": "draft",
+    "demonstration": true,
+    "populations": ["adult", "child"],
+    "sources": [
+      {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 1",
+        "page": "D-1"
+      }
+    ],
+    "extracted": {
+      "date": "2026-10-26",
+      "by": "Synthetic example — not from any manual"
+    },
+    "review": {
+      "reviewedDate": null,
+      "reviewer": null,
+      "approvalDate": null,
+      "nextReviewDate": null
+    },
+    "supersededBy": null,
+    "dependsOn": ["demonstrol", "demo-observations"],
+    "authoringNotes": [
+      "Entirely fictional. Exists only to show how the app displays content. Never copy values from this file."
+    ]
+  },
+  "bodySystems": ["demonstration"],
+  "keywords": ["demonstration", "example", "fictional fever", "sparkle"],
+  "symptoms": ["glowing", "sparkling"],
+  "redFlags": [
+    {
+      "id": "rf-unicorn",
+      "text": "DEMO: Patient has turned into a unicorn (fictional)",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 3",
+        "page": "D-3"
+      },
+      "populations": ["adult", "child"],
+      "action": "evacuate"
+    },
+    {
+      "id": "rf-glow",
+      "text": "DEMO: Glow level very high (fictional)",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 3",
+        "page": "D-3"
+      },
+      "populations": ["adult", "child"],
+      "action": "consult-now"
+    }
+  ],
+  "assessment": {
+    "history": [
+      {
+        "id": "hx-onset",
+        "text": "DEMO: When did the sparkling start? (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-3"
+        },
+        "populations": ["adult", "child"]
+      },
+      {
+        "id": "hx-contact",
+        "text": "DEMO: Contact with glitter? (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-3"
+        },
+        "populations": ["adult", "child"]
+      }
+    ],
+    "observations": [
+      {
+        "id": "obs-glow",
+        "text": "DEMO: Glow level (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-3"
+        },
+        "populations": ["adult", "child"],
+        "parameterKey": "glow-level"
+      },
+      {
+        "id": "obs-sparkle",
+        "text": "DEMO: Sparkle rate (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-3"
+        },
+        "populations": ["adult", "child"],
+        "parameterKey": "sparkle-rate"
+      }
+    ],
+    "examination": [
+      {
+        "id": "ex-shine",
+        "text": "DEMO: Check for shininess (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-3"
+        },
+        "populations": ["adult", "child"]
+      },
+      {
+        "id": "ex-wings",
+        "text": "DEMO: Check for wings (child only, fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-3"
+        },
+        "populations": ["child"]
+      }
+    ]
+  },
+  "observationSetRefs": ["demo-observations"],
+  "investigations": [
+    {
+      "id": "ix-glitter",
+      "text": "DEMO: Glitter test (fictional point-of-care test)",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 3",
+        "page": "D-3"
+      },
+      "populations": ["adult", "child"]
+    }
+  ],
+  "pathway": {
+    "entryNode": "q-sparkling",
+    "nodes": [
+      {
+        "id": "q-sparkling",
+        "type": "question",
+        "text": "DEMO: Is the patient sparkling? (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-6"
+        },
+        "populations": ["adult", "child"],
+        "input": {
+          "kind": "yes-no",
+          "required": true,
+          "allowUnknown": true
+        }
+      },
+      {
+        "id": "q-glow-level",
+        "type": "question",
+        "text": "DEMO: Measure the glow level (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-6"
+        },
+        "populations": ["adult", "child"],
+        "input": {
+          "kind": "number",
+          "unit": "glow units",
+          "required": true,
+          "allowUnknown": true
+        }
+      },
+      {
+        "id": "a-give-demonstrol",
+        "type": "action",
+        "text": "DEMO: Give Demonstrol (fictional drug). See medication reference.",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-6"
+        },
+        "populations": ["adult", "child"],
+        "regimenRefs": ["demonstrol-demo-fever-child-oral", "demonstrol-demo-fever-adult-oral"],
+        "timer": {
+          "label": "DEMO: Recheck in 7 minutes (fictional)",
+          "durationMinutes": 7,
+          "cite": {
+            "sourceId": "demo-source",
+            "section": "Demo chapter 3",
+            "page": "D-6"
+          }
+        }
+      },
+      {
+        "id": "q-settled",
+        "type": "question",
+        "text": "DEMO: Has the sparkling settled? (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        },
+        "populations": ["adult", "child"],
+        "input": {
+          "kind": "yes-no",
+          "required": true,
+          "allowUnknown": false
+        }
+      },
+      {
+        "id": "e-call",
+        "type": "escalation",
+        "text": "DEMO: Consult the medical officer (fictional instruction)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        },
+        "populations": ["adult", "child"],
+        "severity": "critical",
+        "contactRefs": ["medical-officer", "retrieval-service"]
+      },
+      {
+        "id": "end-consult",
+        "type": "terminal",
+        "outcome": "consult",
+        "text": "DEMO: Follow medical officer advice (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        },
+        "populations": ["adult", "child"]
+      },
+      {
+        "id": "end-continue",
+        "type": "terminal",
+        "outcome": "continue-per-source",
+        "text": "DEMO: Continue care and follow up (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        },
+        "populations": ["adult", "child"]
+      }
+    ],
+    "edges": [
+      {
+        "id": "sparkling-yes",
+        "from": "q-sparkling",
+        "to": "e-call",
+        "kind": "normal",
+        "condition": {
+          "answer": "q-sparkling",
+          "eq": "yes"
+        },
+        "label": "If sparkling",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-6"
+        }
+      },
+      {
+        "id": "sparkling-no",
+        "from": "q-sparkling",
+        "to": "q-glow-level",
+        "kind": "normal",
+        "condition": {
+          "answer": "q-sparkling",
+          "eq": "no"
+        },
+        "label": "If not sparkling",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-6"
+        }
+      },
+      {
+        "id": "glow-high",
+        "from": "q-glow-level",
+        "to": "e-call",
+        "kind": "normal",
+        "condition": {
+          "answer": "q-glow-level",
+          "compare": "gte",
+          "value": 7,
+          "unit": "glow units"
+        },
+        "label": "If glow level 7 or more (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-6"
+        }
+      },
+      {
+        "id": "glow-low",
+        "from": "q-glow-level",
+        "to": "a-give-demonstrol",
+        "kind": "normal",
+        "condition": {
+          "answer": "q-glow-level",
+          "compare": "lt",
+          "value": 7,
+          "unit": "glow units"
+        },
+        "label": "If glow level less than 7 (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-6"
+        }
+      },
+      {
+        "id": "after-dose",
+        "from": "a-give-demonstrol",
+        "to": "q-settled",
+        "kind": "normal",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        }
+      },
+      {
+        "id": "settled-yes",
+        "from": "q-settled",
+        "to": "end-continue",
+        "kind": "normal",
+        "condition": {
+          "answer": "q-settled",
+          "eq": "yes"
+        },
+        "label": "If settled",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        }
+      },
+      {
+        "id": "settled-no",
+        "from": "q-settled",
+        "to": "e-call",
+        "kind": "normal",
+        "condition": {
+          "answer": "q-settled",
+          "eq": "no"
+        },
+        "label": "If not settled",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        }
+      },
+      {
+        "id": "reassess-glow",
+        "from": "q-settled",
+        "to": "q-glow-level",
+        "kind": "reassess",
+        "label": "Reassess glow level",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        }
+      },
+      {
+        "id": "call-done",
+        "from": "e-call",
+        "to": "end-consult",
+        "kind": "normal",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-7"
+        }
+      }
+    ]
+  },
+  "medications": ["demonstrol-demo-fever-child-oral", "demonstrol-demo-fever-adult-oral"],
+  "escalation": {
+    "consultCriteria": [
+      {
+        "id": "consult-glow",
+        "text": "DEMO: Glow level 7 or more (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-8"
+        },
+        "populations": ["adult", "child"],
+        "action": "consult-now"
+      },
+      {
+        "id": "consult-no-settle",
+        "text": "DEMO: Not settled after one dose (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-8"
+        },
+        "populations": ["adult", "child"],
+        "action": "consult-soon"
+      }
+    ],
+    "retrievalCriteria": [
+      {
+        "id": "retrieval-unicorn",
+        "text": "DEMO: Patient has turned into a unicorn (fictional)",
+        "cite": {
+          "sourceId": "demo-source",
+          "section": "Demo chapter 3",
+          "page": "D-8"
+        },
+        "populations": ["adult", "child"]
+      }
+    ],
+    "contactRefs": ["medical-officer", "retrieval-service"]
+  },
+  "monitoring": [
+    {
+      "id": "mon-glow",
+      "text": "DEMO: Recheck glow level regularly (fictional)",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 3",
+        "page": "D-8"
+      },
+      "populations": ["adult", "child"]
+    }
+  ],
+  "followUp": [
+    {
+      "id": "fu-review",
+      "text": "DEMO: Review the next day (fictional)",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 3",
+        "page": "D-9"
+      },
+      "populations": ["adult", "child"]
+    }
+  ]
+}

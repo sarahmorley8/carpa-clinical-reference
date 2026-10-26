@@ -1,0 +1,11 @@
+{
+  "name": "CARPA Reference (prototype)",
+  "short_name": "CARPA Ref",
+  "description": "Clinical reference prototype. Not for clinical use.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b3001b",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

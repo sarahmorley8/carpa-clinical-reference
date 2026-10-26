@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "contacts",
+  "items": [
+    {
+      "id": "medical-officer",
+      "label": "Medical officer (on call)",
+      "phone": "[ENTER YOUR LOCAL NUMBER — VERIFY BEFORE USE]",
+      "description": "[ENTER WHEN AND HOW TO CONTACT, PER YOUR LOCAL PROCEDURE]",
+      "verified": null
+    },
+    {
+      "id": "retrieval-service",
+      "label": "Retrieval / evacuation service",
+      "phone": "[ENTER YOUR LOCAL NUMBER — VERIFY BEFORE USE]",
+      "description": "[ENTER WHEN AND HOW TO CONTACT, PER YOUR LOCAL PROCEDURE]",
+      "verified": null
+    }
+  ]
+}

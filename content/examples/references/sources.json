@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "sources",
+  "items": [
+    {
+      "id": "demo-source",
+      "title": "DEMONSTRATION Source (fictional)",
+      "publisher": "Nobody — synthetic",
+      "edition": "Demo edition",
+      "editionDate": "Not applicable",
+      "demonstration": true,
+      "notes": "A made-up source used only by demonstration content."
+    }
+  ]
+}

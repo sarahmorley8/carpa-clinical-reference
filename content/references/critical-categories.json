@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "critical-categories",
+  "items": [
+    { "id": "cardiac-arrest", "label": "Cardiac arrest", "presentationIds": [] },
+    { "id": "anaphylaxis", "label": "Anaphylaxis", "presentationIds": ["anaphylaxis"] },
+    { "id": "sepsis", "label": "Sepsis", "presentationIds": ["sepsis"] },
+    { "id": "chest-pain", "label": "Chest pain", "presentationIds": ["chest-pain"] },
+    { "id": "seizures", "label": "Seizures", "presentationIds": [] },
+    { "id": "major-trauma", "label": "Major trauma", "presentationIds": [] },
+    { "id": "respiratory-distress", "label": "Respiratory distress", "presentationIds": ["asthma"] }
+  ]
+}

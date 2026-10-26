@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "sources",
+  "items": [
+    {
+      "id": "carpa-stm",
+      "title": "CARPA Standard Treatment Manual",
+      "publisher": "[ENTER PUBLISHER AS PRINTED IN THE MANUAL]",
+      "edition": "[ENTER EDITION]",
+      "editionDate": "[ENTER PUBLICATION DATE]",
+      "notes": "Content may only be entered once permission to reproduce has been confirmed. See docs/clinical-governance/licensing.md."
+    }
+  ]
+}
