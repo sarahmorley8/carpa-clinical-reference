@@ -24,23 +24,24 @@ sets up the right habit before real content is entered.
 Menu names in Cloudflare change from time to time; if a label differs, look for the closest match.
 
 1. **Create a Cloudflare account** (free) at cloudflare.com.
-2. **Create the Pages project:** Workers & Pages → Create → Pages → _Direct upload_ → name it, e.g.
-   `carpa-reference`. Upload the `dist/` folder once (from `npm run build`) to create it. You get an address like
-   `https://carpa-reference.pages.dev`.
-3. **Restrict access:** Zero Trust → Access → Applications → Add an application → _Self-hosted_ →
-   domain `carpa-reference.pages.dev` (add `*.carpa-reference.pages.dev` too, for previews). Policy: _Allow_, Include →
-   _Emails_ → your email address. Login method: _One-time PIN_. Set the **session duration to the longest allowed**
-   (e.g. 1 month).
-4. **Automatic deploys from GitHub** (optional but recommended):
-   - Cloudflare: My Profile → API Tokens → Create Token → template _Edit Cloudflare Workers_, or a custom token with
-     only **Account → Cloudflare Pages → Edit**. Copy it. Note your **Account ID** (shown on the Workers & Pages page).
-   - GitHub repository → Settings → Secrets and variables → Actions:
-     - Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
-     - Variables: `CLOUDFLARE_PAGES_PROJECT` = `carpa-reference`, `DEPLOY_ENABLED` = `true`
-   - Every merge to `main` now runs all checks, builds reproducibly and deploys (`.github/workflows/deploy.yml`).
-5. **Check the headers:** open the site, then in a desktop browser's developer tools → Network → the page →
-   Response headers: `Content-Security-Policy` with `frame-ancestors 'none'` should be present.
-6. Install on your phone: [install-on-phone.md](install-on-phone.md).
+2. **Create an API token for GitHub:** My Profile → API Tokens → Create Token → _Create Custom Token_.
+   Permissions: **Account → Cloudflare Pages → Edit** (nothing else). Account resources: your account. Create, then
+   **copy the token** (it is shown once). Never paste it into chat or email.
+3. **Find your Account ID:** Workers & Pages overview (right-hand side), or the URL `dash.cloudflare.com/<account id>`.
+4. **Add them to GitHub:** repository → Settings → Secrets and variables → Actions.
+   - _Secrets_ tab → New repository secret: `CLOUDFLARE_API_TOKEN` (the token), `CLOUDFLARE_ACCOUNT_ID`.
+   - _Variables_ tab → New repository variable: `CLOUDFLARE_PAGES_PROJECT` = `carpa-reference`,
+     `DEPLOY_ENABLED` = `true`.
+5. **Deploy:** merge the pull request (or Actions → Deploy → _Run workflow_). The workflow runs every check, creates
+   the Pages project the first time, builds reproducibly and deploys. The app is then at
+   `https://carpa-reference.pages.dev` (if that name is taken, choose another in step 4 and use it below).
+6. **Restrict access to your email:** Zero Trust (left menu; choose the _Free_ plan if asked) → Access →
+   Applications → Add an application → _Self-hosted_. Add the domains `carpa-reference.pages.dev` and
+   `*.carpa-reference.pages.dev`. Policy: _Allow_, Include → _Emails_ → your email address. Login method:
+   _One-time PIN_. Session duration: the longest allowed (e.g. 1 month).
+7. **Check:** open the address in a private browser window — you should be asked for your email and a PIN before the
+   app appears.
+8. Install on your phone: [install-on-phone.md](install-on-phone.md).
 
 ## Sign-in and offline use
 
