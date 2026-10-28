@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.carpa-reference.invalid/v1/medication.schema.json",
+  "title": "Medication (formulations and indication-specific regimens)",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "meta", "name", "formulations", "contraindications", "cautions", "regimens"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+    "kind": { "const": "medication" },
+    "meta": { "$ref": "common.schema.json#/$defs/meta" },
+    "name": { "$ref": "common.schema.json#/$defs/text" },
+    "formulations": { "type": "array", "items": { "$ref": "#/$defs/formulation" } },
+    "contraindications": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/statement" }
+    },
+    "cautions": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/statement" } },
+    "regimens": { "type": "array", "items": { "$ref": "#/$defs/regimen" }, "minItems": 1 }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "formulation": {
+      "type": "object",
+      "required": ["id", "description", "strength", "cite"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "description": { "$ref": "common.schema.json#/$defs/text" },
+        "strength": {
+          "description": "Amount of drug, optionally per volume (e.g. X mg per Y mL). Never assumed.",
+          "type": "object",
+          "required": ["amount", "unit", "perVolume"],
+          "properties": {
+            "amount": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+            "unit": { "$ref": "common.schema.json#/$defs/unit" },
+            "perVolume": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": ["amount", "unit"],
+                  "properties": {
+                    "amount": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+                    "unit": { "enum": ["mL", "L"] }
+                  },
+                  "additionalProperties": false
+                },
+                { "type": "null" }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" }
+      },
+      "additionalProperties": false
+    },
+    "regimen": {
+      "description": "A dose for one indication, population and route, with its own citation.",
+      "type": "object",
+      "required": [
+        "id",
+        "indication",
+        "populations",
+        "route",
+        "formulationIds",
+        "dosing",
+        "doseText",
+        "frequency",
+        "duration",
+        "maxDoseText",
+        "monitoring",
+        "cite"
+      ],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "indication": { "$ref": "common.schema.json#/$defs/text" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "route": { "$ref": "common.schema.json#/$defs/text" },
+        "formulationIds": {
+          "type": "array",
+          "items": { "$ref": "common.schema.json#/$defs/id" },
+          "uniqueItems": true
+        },
+        "dosing": { "$ref": "#/$defs/dosing" },
+        "doseText": {
+          "description": "The dose exactly as written in the source. Always displayed.",
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "frequency": { "$ref": "common.schema.json#/$defs/text" },
+        "duration": { "oneOf": [{ "$ref": "common.schema.json#/$defs/text" }, { "type": "null" }] },
+        "maxDoseText": {
+          "oneOf": [{ "$ref": "common.schema.json#/$defs/text" }, { "type": "null" }]
+        },
+        "monitoring": {
+          "type": "array",
+          "items": { "$ref": "common.schema.json#/$defs/statement" }
+        },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" }
+      },
+      "additionalProperties": false
+    },
+    "dosing": {
+      "type": "object",
+      "required": ["type"],
+      "discriminator": { "propertyName": "type" },
+      "oneOf": [
+        { "$ref": "#/$defs/weightBased" },
+        { "$ref": "#/$defs/fixed" },
+        { "$ref": "#/$defs/ageBand" },
+        { "$ref": "#/$defs/referenceOnly" }
+      ]
+    },
+    "weightBased": {
+      "type": "object",
+      "required": [
+        "type",
+        "dosePerKg",
+        "maxSingleDose",
+        "minSingleDose",
+        "maxCumulative",
+        "applicableWeightKg",
+        "rounding"
+      ],
+      "properties": {
+        "type": { "const": "weight-based" },
+        "dosePerKg": { "$ref": "common.schema.json#/$defs/quantity" },
+        "maxSingleDose": {
+          "oneOf": [{ "$ref": "common.schema.json#/$defs/quantity" }, { "type": "null" }]
+        },
+        "minSingleDose": {
+          "oneOf": [{ "$ref": "common.schema.json#/$defs/quantity" }, { "type": "null" }]
+        },
+        "maxCumulative": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["amount", "unit", "periodHours"],
+              "properties": {
+                "amount": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+                "unit": { "$ref": "common.schema.json#/$defs/unit" },
+                "periodHours": { "type": ["number", "null"], "exclusiveMinimum": 0 }
+              },
+              "additionalProperties": false
+            },
+            { "type": "null" }
+          ]
+        },
+        "applicableWeightKg": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["min", "max"],
+              "properties": {
+                "min": { "type": ["number", "null"], "minimum": 0 },
+                "max": { "type": ["number", "null"], "exclusiveMinimum": 0 }
+              },
+              "additionalProperties": false
+            },
+            { "type": "null" }
+          ]
+        },
+        "rounding": {
+          "description": "Rounding rule from the source. null means the calculator will not round.",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["mode", "increment", "unit"],
+              "properties": {
+                "mode": { "enum": ["nearest", "down"] },
+                "increment": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+                "unit": { "$ref": "common.schema.json#/$defs/unit" }
+              },
+              "additionalProperties": false
+            },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "fixed": {
+      "type": "object",
+      "required": ["type", "dose"],
+      "properties": {
+        "type": { "const": "fixed" },
+        "dose": { "$ref": "common.schema.json#/$defs/quantity" }
+      },
+      "additionalProperties": false
+    },
+    "ageBand": {
+      "type": "object",
+      "required": ["type", "bands"],
+      "properties": {
+        "type": { "const": "age-band" },
+        "bands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["label", "dose"],
+            "properties": {
+              "label": { "$ref": "common.schema.json#/$defs/text" },
+              "dose": { "$ref": "common.schema.json#/$defs/quantity" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "referenceOnly": {
+      "description": "Display doseText only. The calculator never runs.",
+      "type": "object",
+      "required": ["type"],
+      "properties": { "type": { "const": "reference-only" } },
+      "additionalProperties": false
+    }
+  }
+}

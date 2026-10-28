@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.carpa-reference.invalid/v1/reference-list.schema.json",
+  "title": "Reference lists: sources, populations, body systems, critical categories, synonyms, contacts",
+  "type": "object",
+  "required": ["kind"],
+  "discriminator": { "propertyName": "kind" },
+  "oneOf": [
+    { "$ref": "#/$defs/sources" },
+    { "$ref": "#/$defs/populations" },
+    { "$ref": "#/$defs/bodySystems" },
+    { "$ref": "#/$defs/criticalCategories" },
+    { "$ref": "#/$defs/synonyms" },
+    { "$ref": "#/$defs/contacts" }
+  ],
+  "$defs": {
+    "sources": {
+      "type": "object",
+      "required": ["schemaVersion", "kind", "items"],
+      "properties": {
+        "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+        "kind": { "const": "sources" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "publisher", "edition", "editionDate"],
+            "properties": {
+              "id": { "$ref": "common.schema.json#/$defs/id" },
+              "title": { "$ref": "common.schema.json#/$defs/text" },
+              "publisher": { "$ref": "common.schema.json#/$defs/text" },
+              "edition": { "$ref": "common.schema.json#/$defs/text" },
+              "editionDate": { "$ref": "common.schema.json#/$defs/text" },
+              "demonstration": { "type": "boolean" },
+              "notes": { "$ref": "common.schema.json#/$defs/text" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "populations": {
+      "type": "object",
+      "required": ["schemaVersion", "kind", "items"],
+      "properties": {
+        "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+        "kind": { "const": "populations" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "definition", "cite"],
+            "properties": {
+              "id": { "$ref": "common.schema.json#/$defs/id" },
+              "label": { "$ref": "common.schema.json#/$defs/text" },
+              "definition": {
+                "description": "How the source defines this group (e.g. age boundaries). Placeholder until entered.",
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "cite": {
+                "oneOf": [{ "$ref": "common.schema.json#/$defs/citation" }, { "type": "null" }]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "bodySystems": {
+      "type": "object",
+      "required": ["schemaVersion", "kind", "items"],
+      "properties": {
+        "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+        "kind": { "const": "body-systems" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label"],
+            "properties": {
+              "id": { "$ref": "common.schema.json#/$defs/id" },
+              "label": { "$ref": "common.schema.json#/$defs/text" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "criticalCategories": {
+      "type": "object",
+      "required": ["schemaVersion", "kind", "items"],
+      "properties": {
+        "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+        "kind": { "const": "critical-categories" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "presentationIds"],
+            "properties": {
+              "id": { "$ref": "common.schema.json#/$defs/id" },
+              "label": { "$ref": "common.schema.json#/$defs/text" },
+              "presentationIds": {
+                "description": "Navigation only. One id = tile opens that presentation directly.",
+                "type": "array",
+                "items": { "$ref": "common.schema.json#/$defs/id" },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "synonyms": {
+      "type": "object",
+      "required": ["schemaVersion", "kind", "items"],
+      "properties": {
+        "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+        "kind": { "const": "synonyms" },
+        "items": {
+          "description": "Groups of search terms treated as equivalent. Search aid only.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "terms"],
+            "properties": {
+              "id": { "$ref": "common.schema.json#/$defs/id" },
+              "terms": {
+                "type": "array",
+                "items": { "$ref": "common.schema.json#/$defs/text" },
+                "minItems": 2
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "contacts": {
+      "type": "object",
+      "required": ["schemaVersion", "kind", "items"],
+      "properties": {
+        "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+        "kind": { "const": "contacts" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "phone", "description", "verified"],
+            "properties": {
+              "id": { "$ref": "common.schema.json#/$defs/id" },
+              "label": { "$ref": "common.schema.json#/$defs/text" },
+              "phone": {
+                "description": "Phone number, or a placeholder until verified.",
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "description": { "$ref": "common.schema.json#/$defs/text" },
+              "verified": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": ["date", "by"],
+                    "properties": {
+                      "date": { "$ref": "common.schema.json#/$defs/date" },
+                      "by": { "$ref": "common.schema.json#/$defs/text" }
+                    },
+                    "additionalProperties": false
+                  },
+                  { "type": "null" }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

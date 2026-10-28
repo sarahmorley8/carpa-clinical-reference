@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "body-systems",
+  "items": [
+    { "id": "cardiovascular", "label": "Heart and circulation" },
+    { "id": "respiratory", "label": "Breathing and lungs" },
+    { "id": "neurological", "label": "Brain and nerves" },
+    { "id": "gastrointestinal", "label": "Stomach and bowel" },
+    { "id": "renal-urinary", "label": "Kidneys and urinary" },
+    { "id": "skin", "label": "Skin" },
+    { "id": "immune-allergy", "label": "Allergy and immune" },
+    { "id": "infection", "label": "Infection" },
+    { "id": "trauma", "label": "Injury and trauma" },
+    { "id": "endocrine", "label": "Hormones and diabetes" },
+    { "id": "mental-health", "label": "Mental health" },
+    { "id": "obstetrics", "label": "Pregnancy and birth" },
+    { "id": "paediatrics", "label": "Children" }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "observation-set",
+  "meta": {
+    "id": "vital-signs",
+    "title": "Observation reference ranges",
+    "contentVersion": "0.1.0",
+    "status": "draft",
+    "populations": ["adult", "child"],
+    "sources": [
+      {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      }
+    ],
+    "extracted": {
+      "date": "2026-10-26",
+      "by": "Template — no content entered"
+    },
+    "review": {
+      "reviewedDate": null,
+      "reviewer": null,
+      "approvalDate": null,
+      "nextReviewDate": null
+    },
+    "supersededBy": null,
+    "dependsOn": [],
+    "authoringNotes": [
+      "Enter normal ranges from the approved source. Add one band per age band the source uses.",
+      "Leave a value as null until it is entered. The app shows NOT ENTERED for null values."
+    ]
+  },
+  "parameters": [
+    {
+      "key": "heart-rate",
+      "label": "Heart rate",
+      "unit": "/min"
+    },
+    {
+      "key": "respiratory-rate",
+      "label": "Respiratory rate",
+      "unit": "/min"
+    },
+    {
+      "key": "systolic-bp",
+      "label": "Systolic blood pressure",
+      "unit": "mmHg"
+    },
+    {
+      "key": "oxygen-saturation",
+      "label": "Oxygen saturation (SpO2)",
+      "unit": "%"
+    },
+    {
+      "key": "temperature",
+      "label": "Temperature",
+      "unit": "°C"
+    },
+    {
+      "key": "blood-glucose",
+      "label": "Blood glucose (BGL)",
+      "unit": "mmol/L"
+    }
+  ],
+  "bands": [
+    {
+      "id": "adult",
+      "populationId": "adult",
+      "label": "Adult",
+      "cite": {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      },
+      "values": [
+        {
+          "parameterKey": "heart-rate",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "respiratory-rate",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "systolic-bp",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "oxygen-saturation",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "temperature",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "blood-glucose",
+          "low": null,
+          "high": null
+        }
+      ]
+    },
+    {
+      "id": "child-band-1",
+      "populationId": "child",
+      "label": "[ENTER AGE BAND AS WRITTEN IN SOURCE]",
+      "cite": {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      },
+      "values": [
+        {
+          "parameterKey": "heart-rate",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "respiratory-rate",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "systolic-bp",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "oxygen-saturation",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "temperature",
+          "low": null,
+          "high": null
+        },
+        {
+          "parameterKey": "blood-glucose",
+          "low": null,
+          "high": null
+        }
+      ]
+    }
+  ]
+}

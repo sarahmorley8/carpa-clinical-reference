@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "presentation",
+  "meta": {
+    "id": "gastroenteritis-dehydration-child",
+    "title": "Gastroenteritis and dehydration (child)",
+    "contentVersion": "0.1.0",
+    "status": "draft",
+    "populations": ["child"],
+    "sources": [
+      {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      }
+    ],
+    "extracted": {
+      "date": "2026-10-26",
+      "by": "Template — no content entered"
+    },
+    "review": {
+      "reviewedDate": null,
+      "reviewer": null,
+      "approvalDate": null,
+      "nextReviewDate": null
+    },
+    "supersededBy": null,
+    "dependsOn": [],
+    "authoringNotes": [
+      "Copy this file into content/presentations/ before entering content.",
+      "Replace every [ENTER ...] placeholder and every null number from the approved source, with its section and page.",
+      "Remove any population (adult/child) that the source does not cover for this presentation.",
+      "Add or remove items as the source requires. Each item needs a unique id within this file."
+    ]
+  },
+  "bodySystems": ["gastrointestinal", "paediatrics"],
+  "keywords": [],
+  "symptoms": [],
+  "redFlags": [
+    {
+      "id": "red-flag-1",
+      "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+      "cite": {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      },
+      "populations": ["child"],
+      "action": "evacuate"
+    },
+    {
+      "id": "red-flag-2",
+      "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+      "cite": {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      },
+      "populations": ["child"],
+      "action": "consult-now"
+    }
+  ],
+  "assessment": {
+    "history": [
+      {
+        "id": "history-1",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"]
+      },
+      {
+        "id": "history-2",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"]
+      }
+    ],
+    "observations": [
+      {
+        "id": "obs-1",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"],
+        "parameterKey": "heart-rate"
+      },
+      {
+        "id": "obs-2",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"]
+      }
+    ],
+    "examination": [
+      {
+        "id": "exam-1",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"]
+      }
+    ]
+  },
+  "observationSetRefs": ["vital-signs"],
+  "investigations": [
+    {
+      "id": "investigation-1",
+      "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+      "cite": {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      },
+      "populations": ["child"]
+    }
+  ],
+  "pathway": {
+    "entryNode": "step-1",
+    "nodes": [
+      {
+        "id": "step-1",
+        "type": "info",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"]
+      },
+      {
+        "id": "step-2",
+        "type": "action",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"],
+        "timer": {
+          "label": "[ENTER TIMER LABEL, e.g. repeat observations]",
+          "durationMinutes": null,
+          "cite": {
+            "sourceId": "carpa-stm",
+            "section": "[ENTER SECTION]",
+            "page": "[ENTER PAGE]"
+          }
+        }
+      },
+      {
+        "id": "end-1",
+        "type": "terminal",
+        "outcome": "continue-per-source",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"]
+      }
+    ],
+    "edges": [
+      {
+        "id": "step-1-to-step-2",
+        "from": "step-1",
+        "to": "step-2",
+        "kind": "normal",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        }
+      },
+      {
+        "id": "step-2-to-end-1",
+        "from": "step-2",
+        "to": "end-1",
+        "kind": "normal",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        }
+      }
+    ]
+  },
+  "medications": [],
+  "escalation": {
+    "consultCriteria": [
+      {
+        "id": "consult-1",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"],
+        "action": "consult-now"
+      }
+    ],
+    "retrievalCriteria": [
+      {
+        "id": "retrieval-1",
+        "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+        "cite": {
+          "sourceId": "carpa-stm",
+          "section": "[ENTER SECTION]",
+          "page": "[ENTER PAGE]"
+        },
+        "populations": ["child"]
+      }
+    ],
+    "contactRefs": ["medical-officer", "retrieval-service"]
+  },
+  "monitoring": [
+    {
+      "id": "monitoring-1",
+      "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+      "cite": {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      },
+      "populations": ["child"]
+    }
+  ],
+  "followUp": [
+    {
+      "id": "follow-up-1",
+      "text": "[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]",
+      "cite": {
+        "sourceId": "carpa-stm",
+        "section": "[ENTER SECTION]",
+        "page": "[ENTER PAGE]"
+      },
+      "populations": ["child"]
+    }
+  ]
+}

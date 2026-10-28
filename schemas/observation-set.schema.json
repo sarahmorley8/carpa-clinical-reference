@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.carpa-reference.invalid/v1/observation-set.schema.json",
+  "title": "Observation reference set (normal ranges by patient group)",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "meta", "parameters", "bands"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+    "kind": { "const": "observation-set" },
+    "meta": { "$ref": "common.schema.json#/$defs/meta" },
+    "parameters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["key", "label", "unit"],
+        "properties": {
+          "key": { "$ref": "common.schema.json#/$defs/id" },
+          "label": { "$ref": "common.schema.json#/$defs/text" },
+          "unit": { "$ref": "common.schema.json#/$defs/text" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "populationId", "label", "values", "cite"],
+        "properties": {
+          "id": { "$ref": "common.schema.json#/$defs/id" },
+          "populationId": { "$ref": "common.schema.json#/$defs/id" },
+          "label": {
+            "description": "e.g. an age band as written in the source.",
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["parameterKey", "low", "high"],
+              "properties": {
+                "parameterKey": { "$ref": "common.schema.json#/$defs/id" },
+                "low": { "type": ["number", "null"] },
+                "high": { "type": ["number", "null"] },
+                "note": { "$ref": "common.schema.json#/$defs/text" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "cite": { "$ref": "common.schema.json#/$defs/citation" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

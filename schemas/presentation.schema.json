@@ -1,0 +1,380 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.carpa-reference.invalid/v1/presentation.schema.json",
+  "title": "Presentation (one clinical presentation and its pathway)",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kind",
+    "meta",
+    "bodySystems",
+    "keywords",
+    "redFlags",
+    "assessment",
+    "observationSetRefs",
+    "investigations",
+    "pathway",
+    "medications",
+    "escalation",
+    "monitoring",
+    "followUp"
+  ],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/schemaVersion" },
+    "kind": { "const": "presentation" },
+    "meta": { "$ref": "common.schema.json#/$defs/meta" },
+    "bodySystems": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/id" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "keywords": {
+      "description": "Search words, e.g. common names for the presentation.",
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/text" }
+    },
+    "symptoms": {
+      "description": "Symptom words used by search only.",
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/text" }
+    },
+    "redFlags": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/actionStatement" }
+    },
+    "assessment": {
+      "type": "object",
+      "required": ["history", "observations", "examination"],
+      "properties": {
+        "history": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/statement" } },
+        "observations": { "type": "array", "items": { "$ref": "#/$defs/observationItem" } },
+        "examination": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/statement" } }
+      },
+      "additionalProperties": false
+    },
+    "observationSetRefs": {
+      "description": "Ids of observation reference sets (content/observations) shown on this pathway.",
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/id" },
+      "uniqueItems": true
+    },
+    "investigations": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/statement" }
+    },
+    "pathway": { "$ref": "#/$defs/pathway" },
+    "medications": {
+      "description": "Ids of medication regimens (from content/medications) shown in the medication reference section.",
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/id" },
+      "uniqueItems": true
+    },
+    "escalation": {
+      "type": "object",
+      "required": ["consultCriteria", "retrievalCriteria", "contactRefs"],
+      "properties": {
+        "consultCriteria": { "type": "array", "items": { "$ref": "#/$defs/actionStatement" } },
+        "retrievalCriteria": {
+          "type": "array",
+          "items": { "$ref": "common.schema.json#/$defs/statement" }
+        },
+        "contactRefs": {
+          "description": "Ids from references/contacts.json.",
+          "type": "array",
+          "items": { "$ref": "common.schema.json#/$defs/id" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "monitoring": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/statement" }
+    },
+    "followUp": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/statement" }
+    },
+    "relatedPresentations": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/id" },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "actionStatement": {
+      "description": "A red flag or consult criterion, with the action the source requires.",
+      "type": "object",
+      "required": ["id", "text", "cite", "populations", "action"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "text": { "$ref": "common.schema.json#/$defs/text" },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "action": { "enum": ["evacuate", "consult-now", "consult-soon", "see-source"] }
+      },
+      "additionalProperties": false
+    },
+    "observationItem": {
+      "type": "object",
+      "required": ["id", "text", "cite", "populations"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "text": { "$ref": "common.schema.json#/$defs/text" },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "severity": { "$ref": "common.schema.json#/$defs/severity" },
+        "parameterKey": {
+          "description": "Links this item to a parameter in an observation set, e.g. 'heart-rate'.",
+          "$ref": "common.schema.json#/$defs/id"
+        }
+      },
+      "additionalProperties": false
+    },
+    "pathway": {
+      "type": "object",
+      "required": ["entryNode", "nodes", "edges"],
+      "properties": {
+        "entryNode": { "$ref": "common.schema.json#/$defs/id" },
+        "nodes": { "type": "array", "items": { "$ref": "#/$defs/node" }, "minItems": 1 },
+        "edges": { "type": "array", "items": { "$ref": "#/$defs/edge" } }
+      },
+      "additionalProperties": false
+    },
+    "node": {
+      "type": "object",
+      "required": ["type"],
+      "discriminator": { "propertyName": "type" },
+      "oneOf": [
+        { "$ref": "#/$defs/infoNode" },
+        { "$ref": "#/$defs/questionNode" },
+        { "$ref": "#/$defs/actionNode" },
+        { "$ref": "#/$defs/escalationNode" },
+        { "$ref": "#/$defs/terminalNode" }
+      ]
+    },
+    "infoNode": {
+      "type": "object",
+      "required": ["id", "type", "text", "cite", "populations"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "type": { "const": "info" },
+        "text": { "$ref": "common.schema.json#/$defs/text" },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "severity": { "$ref": "common.schema.json#/$defs/severity" }
+      },
+      "additionalProperties": false
+    },
+    "questionNode": {
+      "type": "object",
+      "required": ["id", "type", "text", "cite", "populations", "input"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "type": { "const": "question" },
+        "text": { "$ref": "common.schema.json#/$defs/text" },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "severity": { "$ref": "common.schema.json#/$defs/severity" },
+        "input": { "$ref": "#/$defs/input" }
+      },
+      "additionalProperties": false
+    },
+    "actionNode": {
+      "type": "object",
+      "required": ["id", "type", "text", "cite", "populations"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "type": { "const": "action" },
+        "text": { "$ref": "common.schema.json#/$defs/text" },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "severity": { "$ref": "common.schema.json#/$defs/severity" },
+        "regimenRefs": {
+          "type": "array",
+          "items": { "$ref": "common.schema.json#/$defs/id" },
+          "uniqueItems": true
+        },
+        "timer": { "$ref": "#/$defs/timer" }
+      },
+      "additionalProperties": false
+    },
+    "escalationNode": {
+      "type": "object",
+      "required": ["id", "type", "text", "cite", "populations"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "type": { "const": "escalation" },
+        "text": { "$ref": "common.schema.json#/$defs/text" },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "severity": { "$ref": "common.schema.json#/$defs/severity" },
+        "contactRefs": {
+          "type": "array",
+          "items": { "$ref": "common.schema.json#/$defs/id" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "terminalNode": {
+      "type": "object",
+      "required": ["id", "type", "text", "cite", "populations", "outcome"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "type": { "const": "terminal" },
+        "text": { "$ref": "common.schema.json#/$defs/text" },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" },
+        "populations": { "$ref": "common.schema.json#/$defs/populations" },
+        "severity": { "$ref": "common.schema.json#/$defs/severity" },
+        "outcome": {
+          "enum": ["continue-per-source", "consult", "evacuate", "go-to-presentation"]
+        },
+        "targetPresentation": { "$ref": "common.schema.json#/$defs/id" }
+      },
+      "additionalProperties": false
+    },
+    "input": {
+      "type": "object",
+      "required": ["kind", "required", "allowUnknown"],
+      "properties": {
+        "kind": { "enum": ["yes-no", "choice", "number"] },
+        "options": {
+          "description": "Required for kind 'choice'.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "$ref": "common.schema.json#/$defs/id" },
+              "label": { "$ref": "common.schema.json#/$defs/text" }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 2
+        },
+        "unit": {
+          "description": "Required for kind 'number', e.g. '/min', 'mmol/L', 'kg'.",
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "required": { "type": "boolean" },
+        "allowUnknown": {
+          "description": "Offer an 'Unknown / not assessed' answer. Unknown answers never follow a branch unless one is explicitly defined.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        { "if": { "properties": { "kind": { "const": "choice" } } }, "then": { "required": ["options"] } },
+        { "if": { "properties": { "kind": { "const": "number" } } }, "then": { "required": ["unit"] } }
+      ]
+    },
+    "timer": {
+      "type": "object",
+      "required": ["label", "durationMinutes", "cite"],
+      "properties": {
+        "label": { "$ref": "common.schema.json#/$defs/text" },
+        "durationMinutes": {
+          "description": "From the approved source only. Leave null until entered.",
+          "type": ["number", "null"],
+          "exclusiveMinimum": 0
+        },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" }
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "required": ["id", "from", "to", "kind", "cite"],
+      "properties": {
+        "id": { "$ref": "common.schema.json#/$defs/id" },
+        "from": { "$ref": "common.schema.json#/$defs/id" },
+        "to": { "$ref": "common.schema.json#/$defs/id" },
+        "kind": {
+          "description": "normal = forward step; reassess = user-triggered loop back to an earlier step.",
+          "enum": ["normal", "reassess"]
+        },
+        "condition": { "$ref": "#/$defs/condition" },
+        "label": {
+          "description": "The condition as written in the source, shown to the user, e.g. 'If no improvement'.",
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "cite": { "$ref": "common.schema.json#/$defs/citation" }
+      },
+      "dependentRequired": { "condition": ["label"] },
+      "additionalProperties": false
+    },
+    "condition": {
+      "description": "A declarative condition. Never evaluated as code.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["answer", "eq"],
+          "properties": {
+            "answer": { "$ref": "common.schema.json#/$defs/id" },
+            "eq": { "$ref": "common.schema.json#/$defs/id" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["answer", "in"],
+          "properties": {
+            "answer": { "$ref": "common.schema.json#/$defs/id" },
+            "in": {
+              "type": "array",
+              "items": { "$ref": "common.schema.json#/$defs/id" },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["answer", "compare", "value", "unit"],
+          "properties": {
+            "answer": { "$ref": "common.schema.json#/$defs/id" },
+            "compare": { "enum": ["gt", "gte", "lt", "lte"] },
+            "value": {
+              "description": "Threshold from the approved source. null until entered.",
+              "type": ["number", "null"]
+            },
+            "unit": { "$ref": "common.schema.json#/$defs/text" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["unknown"],
+          "properties": { "unknown": { "$ref": "common.schema.json#/$defs/id" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["all"],
+          "properties": {
+            "all": { "type": "array", "items": { "$ref": "#/$defs/condition" }, "minItems": 2 }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["any"],
+          "properties": {
+            "any": { "type": "array", "items": { "$ref": "#/$defs/condition" }, "minItems": 2 }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["not"],
+          "properties": { "not": { "$ref": "#/$defs/condition" } },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

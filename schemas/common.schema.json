@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.carpa-reference.invalid/v1/common.schema.json",
+  "title": "Shared building blocks used by every content file",
+  "$defs": {
+    "id": {
+      "description": "Stable identifier: lower-case letters, digits and single hyphens, e.g. 'chest-pain'.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "text": {
+      "description": "Non-empty text. May contain a placeholder such as '[ENTER FROM APPROVED CARPA SOURCE: edition, section and page]'.",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "date": {
+      "description": "Calendar date written as YYYY-MM-DD.",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "schemaVersion": {
+      "description": "Version of the content schema this file follows. This app reads major version 1.",
+      "type": "string",
+      "pattern": "^1\\.\\d+\\.\\d+$"
+    },
+    "contentVersion": {
+      "description": "Version of this piece of content, written as major.minor.patch, e.g. '1.0.0'.",
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "citation": {
+      "description": "Where in the approved source this statement comes from.",
+      "type": "object",
+      "required": ["sourceId", "section", "page"],
+      "properties": {
+        "sourceId": { "$ref": "#/$defs/id" },
+        "section": { "$ref": "#/$defs/text" },
+        "page": { "$ref": "#/$defs/text" }
+      },
+      "additionalProperties": false
+    },
+    "populations": {
+      "description": "Patient groups this applies to. Each value must be an id from references/populations.json.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/id" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "severity": {
+      "description": "critical = red, caution = amber, info = neutral.",
+      "enum": ["critical", "caution", "info"]
+    },
+    "statement": {
+      "description": "One clinical statement with its own source citation.",
+      "type": "object",
+      "required": ["id", "text", "cite", "populations"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "text": { "$ref": "#/$defs/text" },
+        "cite": { "$ref": "#/$defs/citation" },
+        "populations": { "$ref": "#/$defs/populations" },
+        "severity": { "$ref": "#/$defs/severity" }
+      },
+      "additionalProperties": false
+    },
+    "unit": {
+      "description": "Unit of measure. Only these exact spellings are accepted ('microgram' is written in full to avoid mcg/mg confusion).",
+      "enum": ["g", "mg", "microgram", "nanogram", "mL", "L", "unit", "mmol"]
+    },
+    "quantity": {
+      "description": "A number with an explicit unit. Use null for amount until it is entered from the approved source.",
+      "type": "object",
+      "required": ["amount", "unit"],
+      "properties": {
+        "amount": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+        "unit": { "$ref": "#/$defs/unit" }
+      },
+      "additionalProperties": false
+    },
+    "person": {
+      "type": "object",
+      "required": ["name", "role"],
+      "properties": {
+        "name": { "$ref": "#/$defs/text" },
+        "role": { "$ref": "#/$defs/text" }
+      },
+      "additionalProperties": false
+    },
+    "meta": {
+      "description": "Lifecycle and traceability information required on every content unit.",
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "contentVersion",
+        "status",
+        "populations",
+        "sources",
+        "extracted",
+        "review",
+        "supersededBy",
+        "dependsOn"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/text" },
+        "contentVersion": { "$ref": "#/$defs/contentVersion" },
+        "status": {
+          "description": "Lifecycle: draft -> under-review -> approved -> published -> superseded.",
+          "enum": ["draft", "under-review", "approved", "published", "superseded"]
+        },
+        "demonstration": {
+          "description": "true only for synthetic demonstration content in content/examples/.",
+          "type": "boolean"
+        },
+        "populations": { "$ref": "#/$defs/populations" },
+        "sources": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/citation" },
+          "minItems": 1
+        },
+        "extracted": {
+          "description": "Who entered this content from the source, and when.",
+          "type": "object",
+          "required": ["date", "by"],
+          "properties": {
+            "date": { "$ref": "#/$defs/date" },
+            "by": { "$ref": "#/$defs/text" }
+          },
+          "additionalProperties": false
+        },
+        "review": {
+          "type": "object",
+          "required": ["reviewedDate", "reviewer", "approvalDate", "nextReviewDate"],
+          "properties": {
+            "reviewedDate": { "oneOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
+            "reviewer": { "oneOf": [{ "$ref": "#/$defs/person" }, { "type": "null" }] },
+            "approvalDate": { "oneOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
+            "nextReviewDate": { "oneOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] }
+          },
+          "additionalProperties": false
+        },
+        "supersededBy": { "oneOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }] },
+        "dependsOn": {
+          "description": "Ids of other content units this one relies on (e.g. medications).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" },
+          "uniqueItems": true
+        },
+        "authoringNotes": {
+          "description": "Notes for authors and reviewers. Never shown as clinical guidance.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/text" }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

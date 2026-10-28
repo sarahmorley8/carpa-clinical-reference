@@ -1,0 +1,51 @@
+# Deploys the preview build to Cloudflare Pages after every merge to main.
+#
+# DISABLED until set up: it only runs when the repository variable DEPLOY_ENABLED is "true".
+# Setup (see docs/deployment/hosting.md):
+#   Repository variables: DEPLOY_ENABLED=true, CLOUDFLARE_PAGES_PROJECT=<project name>
+#   Repository secrets:   CLOUDFLARE_API_TOKEN (Pages: Edit permission only), CLOUDFLARE_ACCOUNT_ID
+#
+# This deploys the PREVIEW profile (templates + demonstration content). Not for clinical use.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Build (reproducible)
+        run: |
+          export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+          npm run build
+      - name: Create the Pages project if it does not exist yet
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create ${{ vars.CLOUDFLARE_PAGES_PROJECT }} --production-branch=main
+        continue-on-error: true
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=main --commit-hash=${{ github.sha }}

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "medication",
+  "meta": {
+    "id": "demonstrol",
+    "title": "DEMONSTRATION ONLY — Demonstrol (fictional drug)",
+    "contentVersion": "0.1.0",
+    "status": "draft",
+    "demonstration": true,
+    "populations": ["adult", "child"],
+    "sources": [
+      {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 1",
+        "page": "D-1"
+      }
+    ],
+    "extracted": {
+      "date": "2026-10-26",
+      "by": "Synthetic example — not from any manual"
+    },
+    "review": {
+      "reviewedDate": null,
+      "reviewer": null,
+      "approvalDate": null,
+      "nextReviewDate": null
+    },
+    "supersededBy": null,
+    "dependsOn": [],
+    "authoringNotes": [
+      "Entirely fictional. Exists only to show how the app displays content. Never copy values from this file."
+    ]
+  },
+  "name": "Demonstrol (fictional)",
+  "formulations": [
+    {
+      "id": "demonstrol-liquid",
+      "description": "DEMO oral liquid (fictional)",
+      "strength": {
+        "amount": 10,
+        "unit": "mg",
+        "perVolume": {
+          "amount": 5,
+          "unit": "mL"
+        }
+      },
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 4",
+        "page": "D-4"
+      }
+    },
+    {
+      "id": "demonstrol-tablet",
+      "description": "DEMO tablet (fictional)",
+      "strength": {
+        "amount": 100,
+        "unit": "mg",
+        "perVolume": null
+      },
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 4",
+        "page": "D-4"
+      }
+    }
+  ],
+  "contraindications": [
+    {
+      "id": "ci-1",
+      "text": "DEMO: Do not give to dragons (fictional).",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 4",
+        "page": "D-4"
+      },
+      "populations": ["adult", "child"],
+      "severity": "critical"
+    }
+  ],
+  "cautions": [
+    {
+      "id": "caution-1",
+      "text": "DEMO: May cause mild glittering (fictional).",
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 4",
+        "page": "D-4"
+      },
+      "populations": ["adult", "child"],
+      "severity": "caution"
+    }
+  ],
+  "regimens": [
+    {
+      "id": "demonstrol-demo-fever-child-oral",
+      "indication": "DEMO: Fictional fever",
+      "populations": ["child"],
+      "route": "Oral",
+      "formulationIds": ["demonstrol-liquid"],
+      "dosing": {
+        "type": "weight-based",
+        "dosePerKg": {
+          "amount": 1.5,
+          "unit": "mg"
+        },
+        "maxSingleDose": {
+          "amount": 60,
+          "unit": "mg"
+        },
+        "minSingleDose": null,
+        "maxCumulative": {
+          "amount": 240,
+          "unit": "mg",
+          "periodHours": 24
+        },
+        "applicableWeightKg": {
+          "min": 3,
+          "max": 40
+        },
+        "rounding": {
+          "mode": "nearest",
+          "increment": 1,
+          "unit": "mg"
+        }
+      },
+      "doseText": "DEMO: 1.5 mg/kg (fictional), maximum 60 mg per dose",
+      "frequency": "DEMO: every 6 hours (fictional)",
+      "duration": null,
+      "maxDoseText": "DEMO: maximum 240 mg in 24 hours (fictional)",
+      "monitoring": [
+        {
+          "id": "mon-1",
+          "text": "DEMO: Recheck glow level after each dose (fictional).",
+          "cite": {
+            "sourceId": "demo-source",
+            "section": "Demo chapter 4",
+            "page": "D-5"
+          },
+          "populations": ["child"]
+        }
+      ],
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 4",
+        "page": "D-5"
+      }
+    },
+    {
+      "id": "demonstrol-demo-fever-adult-oral",
+      "indication": "DEMO: Fictional fever",
+      "populations": ["adult"],
+      "route": "Oral",
+      "formulationIds": ["demonstrol-tablet"],
+      "dosing": {
+        "type": "fixed",
+        "dose": {
+          "amount": 100,
+          "unit": "mg"
+        }
+      },
+      "doseText": "DEMO: 100 mg (fictional)",
+      "frequency": "DEMO: every 6 hours (fictional)",
+      "duration": "DEMO: up to 2 days (fictional)",
+      "maxDoseText": null,
+      "monitoring": [],
+      "cite": {
+        "sourceId": "demo-source",
+        "section": "Demo chapter 4",
+        "page": "D-5"
+      }
+    }
+  ]
+}

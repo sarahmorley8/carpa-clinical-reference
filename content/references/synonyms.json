@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "synonyms",
+  "items": [
+    { "id": "gastro-spelling", "terms": ["gastroenteritis", "gastro"] },
+    { "id": "diarrhoea-spelling", "terms": ["diarrhoea", "diarrhea"] },
+    { "id": "anaphylaxis-forms", "terms": ["anaphylaxis", "anaphylactic"] }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "carpa-clinical-reference",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Mobile-first, offline-capable clinical reference PWA prototype. NOT FOR CLINICAL USE.",
+  "type": "module",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "validate-content": "tsx scripts/validate-content.ts",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "check": "npm run validate-content && npm run lint && npm run format:check && npm run typecheck && npm run test",
+    "check:reproducible": "bash scripts/check-reproducible.sh"
+  },
+  "dependencies": {
+    "decimal.js": "10.6.0",
+    "minisearch": "7.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.0",
+    "@eslint/js": "9.39.1",
+    "@playwright/test": "1.63.0",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "22.19.1",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "5.2.0",
+    "ajv": "8.20.0",
+    "eslint": "9.39.1",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.0.1",
+    "fast-check": "4.3.0",
+    "globals": "16.5.0",
+    "jsdom": "27.0.1",
+    "playwright-core": "1.63.0",
+    "prettier": "3.6.2",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.2",
+    "vite": "7.3.7",
+    "vitest": "4.1.12"
+  }
+}
